@@ -257,9 +257,13 @@ export default class TtsChat extends Plugin {
                 if(!this.settings.globalChat.value && msgEl.querySelector('.hs-text--orange')) return;
                 if(!this.settings.privateChat.value && msgEl.querySelector('.hs-text--cyan')) return;
                 if(!this.settings.localChat.value && msgEl.querySelector('.hs-text--yellow')) return;
-
-                if(this.settings.sayPlayerNames.value && playerName && playerNameContainer?.textContent) {
-                    this.speak(`${playerName} says ${textContent}`, playerName);
+                
+                if(playerName && playerNameContainer?.textContent) {
+                    if(this.settings.sayPlayerNames.value) { 
+                        this.speak(`${playerName} says ${textContent}`, playerName);
+                    } else {
+                        this.speak(`${textContent}`, playerName);
+                    }
                 } else if(this.settings.sayGameMessages.value) {
                     this.speak(`${textContent}`, playerName);
                 }
