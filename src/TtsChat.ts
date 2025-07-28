@@ -95,16 +95,16 @@ export default class TtsChat extends Plugin {
 
     init(): void {
         this.log('Initialized TtsChat');
+    }
+
+    start(): void {
+        this.log('Started TtsChat');
         if(this.settings.enable.value) {
             this.synth = window.speechSynthesis;
             this.voices = this.synth.getVoices();
             this.isInitialized = true;
             this.setupMessageWatching();
         }
-    }
-
-    start(): void {
-        this.log('Started TtsChat');
     }
 
     stop(): void {
@@ -254,11 +254,18 @@ export default class TtsChat extends Plugin {
             ) {
                 msgEl.dataset.ttsInjected = 'true';
 
-                if(!this.settings.globalChat.value && msgEl.querySelector('.hs-text--orange')) return;
-                if(!this.settings.privateChat.value && msgEl.querySelector('.hs-text--cyan')) return;
-                if(!this.settings.localChat.value && msgEl.querySelector('.hs-text--yellow')) return;
-                
-                if(playerName && playerNameContainer?.textContent) {
+                if(!this.settings.globalChat.value && msgEl.querySelector('.hs-text--orange'))
+                {
+                    // this.log("TTS Ignoring Global chat");
+                }
+                else if(!this.settings.privateChat.value && msgEl.querySelector('.hs-text--cyan')) {
+                    // this.log("TTS Ignoring Private chat");
+                }
+                else if(!this.settings.localChat.value && msgEl.querySelector('.hs-text--yellow')) {
+                    // this.log("TTS Ignoring Local chat");
+                }
+
+                else if(playerName && playerNameContainer?.textContent) {
                     if(this.settings.sayPlayerNames.value) { 
                         this.speak(`${playerName} says ${textContent}`, playerName);
                     } else {
