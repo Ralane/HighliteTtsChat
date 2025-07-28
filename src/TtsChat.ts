@@ -66,7 +66,7 @@ export default class TtsChat extends Plugin {
         this.settings.sayGameMessages = {
             text: 'Status Messages',
             type: SettingsTypes.checkbox,
-            value: true,
+            value: false,
             callback: () => {},
         };
 
