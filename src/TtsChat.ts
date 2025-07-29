@@ -254,7 +254,7 @@ export default class TtsChat extends Plugin {
             }
             const playerName = `${playerNameContainer?.textContent}`.replace("From ", "").replace(":", "").trim();
 
-            const mainPlayerName = document.querySelector('.hs-chat-input-player-name-and-input-container')?.textContent?.replace(":", "").trim();
+            const mainPlayerName = document.querySelector('#hs-chat-input-player-name-and-input-container')?.textContent?.replace(":", "").trim();
             let textContent = msgEl.querySelector('.hs-chat-menu__message-text-container')?.textContent?.replace('[-]', '');
 
             if (
