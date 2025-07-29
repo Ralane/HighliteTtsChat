@@ -254,7 +254,7 @@ export default class TtsChat extends Plugin {
             }
             const playerName = `${playerNameContainer?.textContent}`.replace("From ", "").replace(":", "").trim();
 
-            const mainPlayerName = document.querySelector('.hs-chat-input-player-name-and-input-container')?.textContent?.trim();
+            const mainPlayerName = document.querySelector('.hs-chat-input-player-name-and-input-container')?.textContent?.replace(":", "").trim();
             let textContent = msgEl.querySelector('.hs-chat-menu__message-text-container')?.textContent?.replace('[-]', '');
 
             if (
@@ -262,7 +262,7 @@ export default class TtsChat extends Plugin {
             ) {
                 msgEl.dataset.ttsInjected = 'true';
                 
-                if(!this.settings.ignoreSelf || playerName !== mainPlayerName) {
+                if(this.settings.ignoreSelf.value && playerName === mainPlayerName) {
                     // this.log("TTS Ignoring Self chat");
                 }
                 else if(!this.settings.globalChat.value && msgEl.querySelector('.hs-text--orange'))
