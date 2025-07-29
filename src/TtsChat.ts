@@ -91,6 +91,13 @@ export default class TtsChat extends Plugin {
             callback: () => {},
         };
 
+        this.settings.ignoreSelf = {
+            text: 'Ingore Own Messages',
+            type: SettingsTypes.checkbox,
+            value: true,
+            callback: () => {},
+        };
+
     }
 
     init(): void {
@@ -247,14 +254,18 @@ export default class TtsChat extends Plugin {
             }
             const playerName = `${playerNameContainer?.textContent}`.replace("From ", "").replace(":", "").trim();
 
-            let textContent = msgEl.querySelector('.hs-chat-menu__message-text-container')?.textContent?.replaceAll('[-]', '');
+            const mainPlayerName = document.querySelector('.hs-chat-input-player-name-and-input-container')?.textContent?.trim();
+            let textContent = msgEl.querySelector('.hs-chat-menu__message-text-container')?.textContent?.replace('[-]', '');
 
             if (
                 !msgEl.dataset.ttsInjected
             ) {
                 msgEl.dataset.ttsInjected = 'true';
-
-                if(!this.settings.globalChat.value && msgEl.querySelector('.hs-text--orange'))
+                
+                if(!this.settings.ignoreSelf || playerName !== mainPlayerName) {
+                    // this.log("TTS Ignoring Self chat");
+                }
+                else if(!this.settings.globalChat.value && msgEl.querySelector('.hs-text--orange'))
                 {
                     // this.log("TTS Ignoring Global chat");
                 }
@@ -275,6 +286,7 @@ export default class TtsChat extends Plugin {
                     this.speak(`${textContent}`, playerName);
                 }
             }
-        });
+        }
+        );
     }
 }
