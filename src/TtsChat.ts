@@ -99,6 +99,14 @@ export default class TtsChat extends Plugin {
             callback: () => {},
         };
 
+        this.settings.blacklist = {
+            text: "Blacklist (word1,username1,etc)",
+            type: SettingsTypes.text,
+            value: "IgnoredWord,IgnoredUsername",
+            callback: () => {
+            }
+        };
+
     }
 
     private trackObserver(
@@ -291,6 +299,9 @@ export default class TtsChat extends Plugin {
                 }
                 else if(!this.settings.localChat.value && msgEl.querySelector('.hs-text--yellow')) {
                     // this.log("TTS Ignoring Local chat");
+                }
+                else if(this.settings.blacklist.value.split(',').some((bannedWord) => (msg.textContent?.includes(bannedWord)))) {
+                    // this.log("TTS Ignoring banned word");
                 }
 
                 else if(playerName && playerNameContainer?.textContent) {
