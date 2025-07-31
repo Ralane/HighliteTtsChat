@@ -194,7 +194,7 @@ export default class TtsChat extends Plugin {
 
         this.messageCheckInterval = window.setInterval(() => {
             this.scanAllMessages();
-        }, 500);
+        }, 2000);
     }
 
     private scanAllMessages(): void {
