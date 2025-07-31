@@ -300,7 +300,7 @@ export default class TtsChat extends Plugin {
                 else if(!this.settings.localChat.value && msgEl.querySelector('.hs-text--yellow')) {
                     // this.log("TTS Ignoring Local chat");
                 }
-                else if(this.settings.blacklist.value.split(',').some((bannedWord) => (msg.textContent?.includes(bannedWord)))) {
+                else if(this.settings.blacklist.value.split(',').some((bannedWord) => (bannedWord.trim() && msg.textContent?.toLowerCase().includes(bannedWord.toLowerCase().trim())))) {
                     // this.log("TTS Ignoring banned word");
                 }
 
