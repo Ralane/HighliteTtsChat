@@ -179,11 +179,6 @@ export default class TtsChat extends Plugin {
                             if (record.addedNodes.length) {
                                 setTimeout(() => this.scanAllMessages(), 10);
                             }
-                            if (record.removedNodes.length) {
-                                this.cleanupRemovedMessages(
-                                    record.removedNodes
-                                );
-                            }
                         });
                     },
                     list,
