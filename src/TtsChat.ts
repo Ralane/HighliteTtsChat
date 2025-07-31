@@ -10,6 +10,7 @@ export default class TtsChat extends Plugin {
     
     private synth = window.speechSynthesis;
     private voices = this.synth.getVoices();
+    private observers: MutationObserver[] = [];
 
     constructor() {
         super();
@@ -17,7 +18,7 @@ export default class TtsChat extends Plugin {
         this.settings.sayPlayerNames = {
             text: 'Prefix Player Names',
             type: SettingsTypes.checkbox,
-            value: true,
+            value: false,
             callback: () => {},
         };
 
@@ -100,6 +101,17 @@ export default class TtsChat extends Plugin {
 
     }
 
+    private trackObserver(
+        fn: MutationCallback,
+        target: Node,
+        opts: MutationObserverInit
+    ): MutationObserver {
+        const observer = new MutationObserver(fn);
+        observer.observe(target, opts);
+        this.observers.push(observer);
+        return observer;
+    }
+
     init(): void {
         this.log('Initialized TtsChat');
     }
@@ -122,6 +134,9 @@ export default class TtsChat extends Plugin {
 
     private cleanup(): void {
         this.log('Cleaning up TtsChat...');
+        
+        this.observers.forEach(observer => observer.disconnect());
+        this.observers = [];
 
         if (this.messageCheckInterval) {
             window.clearInterval(this.messageCheckInterval);
@@ -257,12 +272,14 @@ export default class TtsChat extends Plugin {
             const mainPlayerName = document.querySelector('#hs-chat-input-player-name-and-input-container')?.textContent?.split(":")[0].trim();
             let textContent = msgEl.querySelector('.hs-chat-menu__message-text-container')?.textContent?.replace('[-]', '');
 
+            let isFromMainPlayer = (playerName === mainPlayerName) || playerName.startsWith("To ");
+
             if (
                 !msgEl.dataset.ttsInjected
             ) {
                 msgEl.dataset.ttsInjected = 'true';
                 
-                if(this.settings.ignoreSelf.value && playerName === mainPlayerName) {
+                if(this.settings.ignoreSelf.value && isFromMainPlayer) {
                     // this.log("TTS Ignoring Self chat");
                 }
                 else if(!this.settings.globalChat.value && msgEl.querySelector('.hs-text--orange'))
