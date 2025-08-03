@@ -155,6 +155,9 @@ export default class TtsChat extends Plugin {
 
         this.isInitialized = false;
         this.messageWatchersSetup = false;
+
+        this.synth.cancel();
+
         this.log('TtsChat cleanup complete');
     }
     
