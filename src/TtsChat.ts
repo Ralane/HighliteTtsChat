@@ -278,7 +278,7 @@ export default class TtsChat extends Plugin {
             const mainPlayerName = document.querySelector('#hs-chat-input-player-name-and-input-container')?.textContent?.split(":")[0].trim();
             let textContent = msgEl.querySelector('.hs-chat-menu__message-text-container')?.textContent?.replace('[-]', '');
 
-            let isFromMainPlayer = (playerName === mainPlayerName) || playerName.startsWith("To ");
+            let isFromMainPlayer = (playerName === mainPlayerName) || playerName === "To";
 
             if (
                 !msgEl.dataset.ttsInjected
