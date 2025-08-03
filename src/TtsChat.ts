@@ -272,6 +272,11 @@ export default class TtsChat extends Plugin {
             );
             if(!playerNameContainer) {
                 playerNameContainer = msgEl.querySelector('.hs-chat-menu__pre-text')
+
+                if(playerNameContainer?.textContent === "From") {
+                    playerNameContainer = msgEl.querySelectorAll('.hs-chat-menu__pre-text')[1];
+                }
+
             }
             const playerName = `${playerNameContainer?.textContent}`.replace("From ", "").replace(":", "").trim();
 
