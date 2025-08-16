@@ -1,4 +1,4 @@
-import {Plugin, SettingsTypes} from "@highlite/plugin-api";
+import {Plugin, SettingsTypes} from "@highlite/core";
 
 export default class TtsChat extends Plugin {
     pluginName: string = 'TTS Chat';
@@ -14,6 +14,13 @@ export default class TtsChat extends Plugin {
 
     constructor() {
         super();
+
+        this.settings.infoBox = {
+            type: SettingsTypes.info,
+            value: 'System Voices',
+            text: "TTS Chat uses your system's available text-to-speech voices.\nIf you cannot hear anything, please check your settings. In Windows, this is under 'Speech'.\nChecking 'Recognise non-native accents' will allow you to use accents from other voice packs during Random Voices mode. You may need to restart Highlite and/or your computer for newly installed voice packs to take effect.",
+            callback: () => {},
+        }
 
         this.settings.sayPlayerNames = {
             text: 'Prefix Player Names',
@@ -93,7 +100,7 @@ export default class TtsChat extends Plugin {
         };
 
         this.settings.ignoreSelf = {
-            text: 'Ingore Own Messages',
+            text: 'Ignore Own Messages',
             type: SettingsTypes.checkbox,
             value: true,
             callback: () => {},
@@ -101,7 +108,7 @@ export default class TtsChat extends Plugin {
 
         this.settings.blacklist = {
             text: "Blacklist (word1,username1,etc)",
-            type: SettingsTypes.text,
+            type: SettingsTypes.textarea,
             value: "IgnoredWord,IgnoredUsername",
             callback: () => {
             }
